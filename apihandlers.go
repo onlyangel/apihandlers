@@ -14,12 +14,12 @@ func Recover( fn infunc ) infunc{
 		defer func(r *http.Request) {
 			ctx := appengine.NewContext(r)
 			if err := recover(); err != nil {
+				err := errors.Wrap(err, 1)
 				fmt.Fprintf(w,"ERROR: %v", err)
-				ctx.Infof("ERROR: %v", err.(*errors.Error).ErrorStack())
+				ctx.Infof("ERROR: %v", err.ErrorStack())
 			}
 		}(r)
 
 		fn(w,r)
 	}
 }
-
