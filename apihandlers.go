@@ -23,3 +23,13 @@ func Recover( fn infunc ) infunc{
 		fn(w,r)
 	}
 }
+
+func PanicIfNil(err *errors.Error){
+	if err != nil {
+		panic(err)
+	}
+}
+
+func PanicWithMsg( str string){
+	panic(fmt.Errorf("%s",str))
+}
