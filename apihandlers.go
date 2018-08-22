@@ -26,7 +26,7 @@ func Recover( fn infunc ) infunc{
 	}
 }
 
-func PanicIfNil(err errors.Error){
+func PanicIfNil(err error){
 	if err != nil {
 		panic(err)
 	}
