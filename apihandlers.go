@@ -11,6 +11,8 @@ type infunc func(http.ResponseWriter, *http.Request)
 func Recover( fn infunc ) infunc{
 	return func(w http.ResponseWriter, r *http.Request){
 
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+
 		defer func(r *http.Request) {
 			ctx := appengine.NewContext(r)
 			if err := recover(); err != nil {
@@ -24,7 +26,7 @@ func Recover( fn infunc ) infunc{
 	}
 }
 
-func PanicIfNil(err *errors.Error){
+func PanicIfNil(err errors.Error){
 	if err != nil {
 		panic(err)
 	}
