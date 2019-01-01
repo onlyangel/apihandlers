@@ -35,9 +35,7 @@ func RecoverApi( fn infunc ) infunc {
 			ctx := appengine.NewContext(r)
 			if err := recover(); err != nil {
 				err := errors.Wrap(err, 1)
-				mp := struct{
-					Error string
-				}{
+				mp := ErrorType{
 					Error: err.Error(),
 				}
 				jsonstr , _ := json.Marshal(mp)
@@ -53,7 +51,7 @@ func RecoverApi( fn infunc ) infunc {
 	}
 }
 
-func PanicIfNil(err error){
+func PanicIfNotNil(err error){
 	if err != nil {
 		panic(err)
 	}
@@ -61,4 +59,8 @@ func PanicIfNil(err error){
 
 func PanicWithMsg( str string){
 	panic(fmt.Errorf("%s",str))
+}
+
+type ErrorType struct{
+	Error string
 }
