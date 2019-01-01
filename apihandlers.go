@@ -53,7 +53,7 @@ func RecoverApi( fn infunc ) infunc {
 	}
 }
 
-func PanicIfNil(err error){
+func PanicIfNotNil(err error){
 	if err != nil {
 		panic(err)
 	}
