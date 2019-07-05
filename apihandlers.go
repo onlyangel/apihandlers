@@ -64,3 +64,7 @@ func PanicWithMsg( str string){
 type ErrorType struct{
 	Error string
 }
+
+func WriteAsJson(w http.ResponseWriter, obj interface{}){
+	PanicIfNotNil(json.NewEncoder(w).Encode(blocks))
+}
