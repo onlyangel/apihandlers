@@ -66,5 +66,5 @@ type ErrorType struct{
 }
 
 func WriteAsJson(w http.ResponseWriter, obj interface{}){
-	PanicIfNotNil(json.NewEncoder(w).Encode(blocks))
+	PanicIfNotNil(json.NewEncoder(w).Encode(obj))
 }
