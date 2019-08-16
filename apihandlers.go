@@ -68,3 +68,10 @@ type ErrorType struct{
 func WriteAsJson(w http.ResponseWriter, obj interface{}){
 	PanicIfNotNil(json.NewEncoder(w).Encode(obj))
 }
+func WriteAsJsonList(w http.ResponseWriter, obj interface{}){
+
+	jsonstr, err := json.Marshal(obj)
+	PanicIfNotNil(err)
+
+	w.Write(jsonstr)
+}
