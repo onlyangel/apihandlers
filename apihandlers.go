@@ -33,8 +33,8 @@ func RecoverApi( fn infunc ) infunc {
 	return func(w http.ResponseWriter, r *http.Request){
 		defer func(r *http.Request) {
 			ctx := appengine.NewContext(r)
-			if err := recover(); err != nil {
-				err := errors.Wrap(err, 1)
+			if errr := recover(); errr != nil {
+				err := errr.(errors.Error)
 				mp := ErrorType{
 					Error: err.Error(),
 				}
@@ -53,7 +53,7 @@ func RecoverApi( fn infunc ) infunc {
 
 func PanicIfNotNil(err error){
 	if err != nil {
-		panic(err)
+		panic(errors.Wrap(err, 1))
 	}
 }
 
