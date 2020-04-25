@@ -34,7 +34,7 @@ func RecoverApi( fn infunc ) infunc {
 		defer func(r *http.Request) {
 			ctx := appengine.NewContext(r)
 			if errr := recover(); errr != nil {
-				err := errr.(errors.Error)
+				err := errr.(*errors.Error)
 				mp := ErrorType{
 					Error: err.Error(),
 				}
