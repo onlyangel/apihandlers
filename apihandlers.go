@@ -19,7 +19,7 @@ func Recover( fn infunc ) infunc{
 			if err := recover(); err != nil {
 				err := errors.Wrap(err, 1)
 				fmt.Fprintf(w,"ERROR: %v", err)
-				log.Fatalf("ERROR: %v", err.ErrorStack())
+				log.Printf("ERROR: %v", err.ErrorStack())
 			}
 		}(r)
 
@@ -41,7 +41,7 @@ func RecoverApi( fn infunc ) infunc {
 				ms := time.Now().UnixNano()
 				log.Printf("ERROR(%d): ------------ ", ms)
 				log.Printf("ERROR(%d): %s", ms, err.Error())
-				log.Fatalf("ERROR(%d): %v", ms, err.ErrorStack())
+				log.Printf("ERROR(%d): %v", ms, err.ErrorStack())
 			}
 		}(r)
 
