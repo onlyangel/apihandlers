@@ -1,13 +1,12 @@
 package apihandlers
 
 import (
-	"net/http"
-	"fmt"
-	"google.golang.org/appengine"
-	"google.golang.org/appengine/log"
-	"time"
-	"github.com/go-errors/errors"
 	"encoding/json"
+	"fmt"
+	"github.com/go-errors/errors"
+	"log"
+	"net/http"
+	"time"
 )
 
 type infunc func(http.ResponseWriter, *http.Request)
@@ -17,11 +16,10 @@ func Recover( fn infunc ) infunc{
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 
 		defer func(r *http.Request) {
-			ctx := appengine.NewContext(r)
 			if err := recover(); err != nil {
 				err := errors.Wrap(err, 1)
 				fmt.Fprintf(w,"ERROR: %v", err)
-				log.Criticalf(ctx,"ERROR: %v", err.ErrorStack())
+				log.Fatalf("ERROR: %v", err.ErrorStack())
 			}
 		}(r)
 
@@ -32,7 +30,6 @@ func Recover( fn infunc ) infunc{
 func RecoverApi( fn infunc ) infunc {
 	return func(w http.ResponseWriter, r *http.Request){
 		defer func(r *http.Request) {
-			ctx := appengine.NewContext(r)
 			if errr := recover(); errr != nil {
 
 				err := errors.New(errr)
@@ -42,9 +39,9 @@ func RecoverApi( fn infunc ) infunc {
 				jsonstr , _ := json.Marshal(mp)
 				fmt.Fprintf(w,"%s", string(jsonstr))
 				ms := time.Now().UnixNano()
-				log.Infof(ctx,"ERROR(%d): ------------ ", ms)
-				log.Infof(ctx,"ERROR(%d): %s", ms, err.Error())
-				log.Criticalf(ctx,"ERROR(%d): %v", ms, err.ErrorStack())
+				log.Printf("ERROR(%d): ------------ ", ms)
+				log.Printf("ERROR(%d): %s", ms, err.Error())
+				log.Fatalf("ERROR(%d): %v", ms, err.ErrorStack())
 			}
 		}(r)
 
